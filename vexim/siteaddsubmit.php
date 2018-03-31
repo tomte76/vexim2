@@ -24,6 +24,12 @@
   } else {
     $_POST['pipe'] = 0;
   }
+  if (isset($_POST['has_dkim'])) {
+    $_POST['has_dkim'] = 1;
+  } else {
+    $_POST['has_dkim'] = 0;
+  }
+
   if (!isset($_POST['max_accounts']) || $_POST['max_accounts'] == '') {
     $_POST['max_accounts'] = '0';
   }
@@ -73,6 +79,14 @@
     $pophomepath = $domainpath . "/" . $_POST['localpart'];
   }
 
+  if(isset($_POST['has_dkim']) && isset($_POST['dkim_key'])) {
+    $key_details = openssl_pkey_get_details($_POST['dkim_key']);
+    if(!isset($key_details)) {
+	header ("Location: site.php?faileddkimkey=1");
+      	die();
+    }
+  }
+
   if ($_POST['type'] === "alias") {
     $query = "INSERT INTO domainalias (domain_id, alias)
               SELECT domains.domain_id, :alias FROM domains WHERE domains.domain_id=:domain_id";
@@ -100,10 +114,10 @@
     $query = "INSERT INTO domains 
               (domain, spamassassin, sa_tag, sa_refuse, avscan,
               max_accounts, quotas, maildir, pipe, enabled, uid, gid,
-              type, maxmsgsize)
+              type, maxmsgsize, has_dkim, dkim_key)
               VALUES (:domain, :spamassassin, :sa_tag, :sa_refuse,
               :avscan, :max_accounts, :quotas, :maildir, :pipe, :enabled,
-              :uid, :gid, :type, :maxmsgsize)";
+              :uid, :gid, :type, :maxmsgsize, :has_dkim, :dkim_key)";
     $sth = $dbh->prepare($query);
     $success = $sth->execute(array(':domain'=>$_POST['domain'],
         ':spamassassin'=>$_POST['spamassassin'],
@@ -114,7 +128,8 @@
         ':maildir'=>((isset($_POST['maildir'])) ? $domainpath : ''),
         ':pipe'=>$_POST['pipe'], ':enabled'=>$_POST['enabled'],
         ':uid'=>$uid, ':gid'=>$gid, ':type'=>$_POST['type'],
-        ':maxmsgsize'=>((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0)
+        ':maxmsgsize'=>((isset($_POST['maxmsgsize'])) ? $_POST['maxmsgsize'] : 0),
+        ':has_dkim'=>$_POST['has_dkim'], ':dkim_key'=>$_POST['dkim_key']
         ));
     if ($success) {
       if ($_POST['type'] == "local") {

@@ -161,6 +161,19 @@
             </td>
           </tr>
           <tr>
+            <td><?php echo _('DKIM enabled?'); ?></td>
+            <td colspan="2">
+              <input name="dkim" type="checkbox" class="textfield">
+            </td>
+          </tr>
+          <tr>
+         <tr>
+            <td><?php echo _('DKIM private key?'); ?></td>
+            <td colspan="2">
+              <input name="dkim_key" type="text" class="textfield">
+            </td>
+          </tr>
+          <tr>
             <td><?php echo _('Domain enabled?'); ?></td>
             <td colspan="2">
               <input name="enabled" type="checkbox" class="textfield" checked>
