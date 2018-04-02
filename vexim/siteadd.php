@@ -167,10 +167,10 @@
             </td>
           </tr>
           <tr>
-         <tr>
+          <tr>
             <td><?php echo _('DKIM private key?'); ?></td>
             <td colspan="2">
-              <input name="dkim_key" type="text" class="textfield">
+              <textarea name="dkim_key" rows=4 cols=30 class="textfield"></textarea>
             </td>
           </tr>
           <tr>

@@ -113,6 +113,16 @@ include_once dirname(__FILE__) . "/config/httpheaders.php";
                 <td><input type="checkbox" name="pipe" <?php if ($row['pipe'] == 1) {print "checked";} ?>></td>
             </tr>
             <tr>
+                <td><?php echo _("DKIM Private Key"); ?>:</td>
+                <td><textarea name="dkim_key" rows=4 cols=35 class="textfield"><?php $priv_key=trim($row['dkim_key']); if (isset($row['dkim_key'])) {print "$priv_key";} ?>></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td><?php echo _("DKIM Public Key"); ?>:</td>
+                <td><textarea readonly name="dkim_key" rows=4 cols=35 class="textfield"><?php $priv_key=trim($row['dkim_key']); $res = openssl_pkey_get_private(array($priv_key, $passphrase)); $key_details = openssl_pkey_get_details($res); print trim($key_details['key']); ?></textarea>
+                </td>
+            </tr>
+            <tr>
                 <td><?php echo _("Enabled"); ?>:</td>
                 <td><input type="checkbox" name="enabled" <?php if ($row['enabled'] == 1) {print "checked";} ?>></td>
                 <td>

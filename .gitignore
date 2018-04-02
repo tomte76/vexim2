@@ -1,1 +1,4 @@
 vexim/config/variables.php
+vexim-docker/vexim
+vexim-docker/variables.php
+vexim-docker/mysql.sql

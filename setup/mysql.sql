@@ -200,7 +200,7 @@ CREATE TABLE `group_contents` (
 
 LOCK TABLES `domains` WRITE;
 ALTER TABLE `domains` DISABLE KEYS;
-INSERT INTO `domains` VALUES (1,'admin','',65534,65534,0,0,NULL,0,0,1,0,0,0,0,0,0);
+INSERT INTO `domains` VALUES (1,'admin','',65534,65534,0,0,NULL,0,0,1,0,0,0,0,0,0,0,0);
 ALTER TABLE `domains` ENABLE KEYS;
 UNLOCK TABLES;
 

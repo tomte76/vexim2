@@ -79,11 +79,14 @@
     $pophomepath = $domainpath . "/" . $_POST['localpart'];
   }
 
-  if(isset($_POST['has_dkim']) && isset($_POST['dkim_key'])) {
-    $key_details = openssl_pkey_get_details($_POST['dkim_key']);
+  if($_POST['has_dkim'] && isset($_POST['dkim_key'])) {
+    $passphrase="";
+    $priv_key = trim($_POST['dkim_key']);
+    $res = openssl_pkey_get_private(array($priv_key, $passphrase));
+    $key_details = openssl_pkey_get_details($res);
     if(!isset($key_details)) {
-	header ("Location: site.php?faileddkimkey=1");
-      	die();
+        header ("Location: site.php?faileddkimkey=1");
+        die();
     }
   }
 
